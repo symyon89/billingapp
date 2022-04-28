@@ -1,0 +1,108 @@
+<hr/>
+<h2 class="text-center">Customer</h2>
+<hr/>
+<div class="container">
+  <form [formGroup]="customerForm">
+    <div *ngIf="formMessage !=''">
+      <p class="alert alert-info" role="alert">{{formMessage}}</p>
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <div class="form-check">
+          <label class="form-check-label" for="active">Active</label>
+          <input class="form-check-input" type="radio" formControlName="active" [(ngModel)]="customer.active"
+                 [value]="true"
+                 id="active" aria-describedby="active">
+        </div>
+        <div class="form-check">
+          <label class="form-check-label" for="inactive">Inactive</label>
+          <input class="form-check-input" type="radio" formControlName="active" [(ngModel)]="customer.active"
+                 [value]="false"
+                 id="inactive" aria-describedby="active">
+        </div>
+      </div>
+      <div class="col-2">
+        <label class="form-check-label" for="company">Is Company</label>
+        <input class="form-check-input" type="radio" formControlName="company" [(ngModel)]="customer.company"
+               [value]="true" id="company"
+               aria-describedby="company">
+        <label class="form-check-label" for="companyFalse">Is not Company</label>
+        <input class="form-check-input" type="radio" formControlName="company" [(ngModel)]="customer.company"
+               [value]="false" id="companyFalse"
+               aria-describedby="company">
+      </div>
+      <div class="col">
+        <div ngbDropdown>
+          <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select primary
+            contact
+          </button>
+          <div ngbDropdownMenu *ngFor="let contact of customer.contactList" aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div ngbDropdown>
+          <button type="button" class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>Select billing
+            address
+          </button>
+          <div ngbDropdownMenu *ngFor="let address of customer.addressList" aria-labelledby="dropdownBasic2">
+            <button
+              ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
+            + address.county + ", " + address.country + ", " + address.postalCode}}</button>
+          </div>
+        </div>
+        <div ngbDropdown>
+          <button type="button" class="btn btn-outline-primary" id="dropdownBasic3" ngbDropdownToggle>Select deliver
+            address
+          </button>
+          <div ngbDropdownMenu *ngFor="let address of customer.addressList" aria-labelledby="dropdownBasic3">
+            <button
+              ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
+            + address.county + ", " + address.country + ", " + address.postalCode}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <label for="dateAdded">Date added</label>
+        <input type="text" formControlName="dateAdded" [ngModel]="customer.dateAdded | date:'yyyy-MM-dd HH:mm:ss'"
+               id="dateAdded" aria-describedby="dateAdded" placeholder="Enter dateAdded" class="form-control"
+               readonly/>
+      </div>
+      <div class="col">
+        <label for="lastDateModified">Date modified</label>
+        <input type="text" formControlName="lastDateModified"
+               [ngModel]="customer.lastDateModified | date:'yyyy-MM-dd HH:mm:ss'" id="lastDateModified"
+               aria-describedby="lastDateModified" placeholder="Enter lastDateModified"
+               class="form-control" readonly/>
+      </div>
+
+
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-3">
+        <label for="name">Name :</label>
+        <input type="text" formControlName="name" [(ngModel)]="customer.name" id="name" aria-describedby="name"
+               placeholder="Enter name" class="form-control col-4 mb-4" required/>
+      </div>
+      <div class="col-2">
+        <label for="number">Number :</label>
+        <input type="text" formControlName="number" [(ngModel)]="customer.number" id="number" aria-describedby="number"
+               placeholder="Enter number" class="form-control col-4 mb-4" required/>
+      </div>
+      <div class="col">
+        <label for="description">Description :</label>
+        <textarea type="text" formControlName="description" [(ngModel)]="customer.description" id="description"
+                  aria-describedby="description" placeholder="Enter description"
+                  class="form-control col-4 mb-4"></textarea>
+      </div>
+    </div>
+    <button class="btn btn-outline-primary m-2">Add contact</button>
+    <button class="btn btn-outline-primary m-2">Add address</button>
+    <hr/>
+    <button class="btn btn-primary" type="submit" (click)="submitCustomer()">Save</button>
+  </form>
+  <hr/>
+  <a [routerLink]="['/customer']" class="btn btn-secondary ">Go to customer list</a>
+</div>

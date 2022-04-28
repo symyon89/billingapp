@@ -1,4 +1,9 @@
+<div *ngIf="customerList.length == 0; else showCustomerList">
+    <p class="alert alert-danger text-center" role="alert">{{formMessage}}</p>
+</div>
+<ng-template #showCustomerList>
 <table class="table table-striped table-hover">
+  <caption class="text-center">End of List</caption>
   <thead>
   <tr>
     <th scope="col">Active</th>
@@ -10,20 +15,19 @@
   </tr>
   </thead>
   <tbody>
-  <tr >
-    <th scope="row">Yes</th>
-    <td>No</td>
-    <td>Budescu</td>
-    <td>21/12/2015</td>
-    <td>30/12/2015</td>
-    <td>30/12/2015</td>
+  <tr *ngFor="let customer of customerList">
+    <th scope="row">{{customer.active ? 'Yes' : 'No'}}</th>
+    <td>{{customer.company ? 'Yes' : 'No'}}</td>
+    <td>{{customer.name}}</td>
+    <td>{{customer.dateAdded | date:"dd/MM/yyyy"}}</td>
+    <td>{{customer.lastDateModified | date:"dd/MM/yyyy"}}</td>
     <td>
       <div class="d-grid gap-2 d-md-flex justify-content-center">
-        <a href="#" class="btn btn-outline-secondary">Details</a>
-        <a href="#" class="btn btn-outline-primary">Edit</a>
-        <a href="#" class="btn btn-outline-danger">Delete</a>
+        <a [routerLink] = "['/customer/',customer.id]" class="btn btn-outline-primary">Edit</a>
+        <a (click)="deleteCustomer(customer.id)" class="btn btn-outline-danger">Delete</a>
       </div>
     </td>
   </tr>
   </tbody>
 </table>
+</ng-template>

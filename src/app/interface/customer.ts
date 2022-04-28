@@ -3,8 +3,8 @@ import {Contact} from "./contact";
 
 export interface Customer {
   id:string;
-  isActive:boolean;
-  isCompany:boolean;
+  active:boolean;
+  company:boolean;
   name:string;
   number:string;
   description:string;
