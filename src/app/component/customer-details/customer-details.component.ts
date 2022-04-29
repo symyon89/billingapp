@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Customer} from "../../interface/customer";
 import {CustomerService} from "../../service/customer.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Contact} from "../../interface/contact";
+import {Address} from "../../interface/address";
 
 @Component({
   selector: 'app-customer-details',
@@ -11,6 +13,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class CustomerDetailsComponent implements OnInit {
 
+  addContact: boolean = true;
+  addAddress: boolean = true;
   customerForm!: FormGroup;
   customerId: any;
   customer: Customer = {
@@ -26,8 +30,10 @@ export class CustomerDetailsComponent implements OnInit {
     lastDateModified: new Date()
   };
   formMessage: string = '';
+  contact:Contact = {id: "", name:"",email:"",phone:"",primary:true};
+  address:Address = {id: "", street:"",number:"",otherDetails:"", city:"",county:"",country:"",postalCode:"",primaryBilling:true,primaryDelivery:true};
 
-  constructor(public customerService: CustomerService, private route: ActivatedRoute) {
+  constructor(public customerService: CustomerService, private route: ActivatedRoute,private router: Router) {
   }
 
   ngOnInit(): void {
@@ -38,6 +44,7 @@ export class CustomerDetailsComponent implements OnInit {
           error: error => console.log(error)
         }
       );
+
     }
 
     this.customerForm = new FormGroup({
@@ -47,7 +54,20 @@ export class CustomerDetailsComponent implements OnInit {
       number: new FormControl(),
       description: new FormControl(),
       dateAdded: new FormControl("", [Validators.required]),
-      lastDateModified: new FormControl("", [Validators.required])
+      lastDateModified: new FormControl("", [Validators.required]),
+      primary: new FormControl(),
+      nameContact: new FormControl(),
+      emailContact: new FormControl(),
+      phoneContact: new FormControl(),
+      addressStreet:new FormControl(),
+      addressNumber:new FormControl(),
+      otherDetails:new FormControl(),
+      primaryBilling:new FormControl(),
+      primaryDelivery:new FormControl(),
+      city:new FormControl(),
+      county:new FormControl(),
+      country:new FormControl(),
+      postalCode:new FormControl()
     });
 
   }
@@ -58,6 +78,7 @@ export class CustomerDetailsComponent implements OnInit {
         this.customerService.save(this.customer).subscribe({
           next: data => {
             this.customer = data;
+            this.router.navigate(["/customer/" + data.id]);
             this.formMessage = "Success"
           },
           error: error => {
@@ -70,6 +91,7 @@ export class CustomerDetailsComponent implements OnInit {
           next: data => {
             this.customer = data;
             this.formMessage = "Success"
+
           },
           error: error => {
             this.formMessage = "Update error";
@@ -80,6 +102,52 @@ export class CustomerDetailsComponent implements OnInit {
     }else {
       this.formMessage = "Please complete all fields"
     }
+  }
 
+  showFormContact(){
+    this.addContact = !this.addContact;
+  }
+  showFormAddress(){
+    this.addAddress = !this.addAddress;
+  }
+
+  saveContact() {
+    if(this.contact.name.length != 0){
+      if(this.contact.primary){
+        this.customer.contactList?.forEach(c => c.primary=false)
+      }
+      this.customer.contactList?.push(this.contact);
+      this.contact = {id: "", name:"",email:"",phone:"",primary:true};
+      this.formMessage = "Success";
+    }else {
+      this.formMessage = "Please complete name field";
+    }
+  }
+
+  saveAddress() {
+    if(this.address.city.length != 0){
+      if(this.address.primaryBilling){
+        this.customer.addressList?.forEach(a => a.primaryBilling=false);
+      }
+      if(this.address.primaryDelivery){
+        this.customer.addressList?.forEach(a => a.primaryDelivery=false);
+      }
+      this.customer.addressList?.push(this.address)
+      this.address = {id: "", street:"",number:"",otherDetails:"", city:"",county:"",country:"",postalCode:"",primaryBilling:true,primaryDelivery:true};
+      this.formMessage = "Success";
+    }else {
+      this.formMessage = "Please complete name field";
+    }
+  }
+
+  setPrimary(contact: Contact) {
+    this.customer.contactList?.forEach(c => contact===c ? c.primary=true :c.primary=false);
+  }
+  setBillingAddress(address: Address) {
+    this.customer.addressList?.forEach(a => address===a ? a.primaryBilling=true :a.primaryBilling=false);
+  }
+
+  setDeliveryAddress(address: Address) {
+    this.customer.addressList?.forEach(a => address===a ? a.primaryDelivery=true :a.primaryDelivery=false);
   }
 }
