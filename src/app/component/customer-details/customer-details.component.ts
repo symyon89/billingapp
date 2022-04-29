@@ -13,6 +13,8 @@ import {Address} from "../../interface/address";
 })
 export class CustomerDetailsComponent implements OnInit {
 
+  editList: boolean = true;
+  deleteList: boolean = true;
   addContact: boolean = true;
   addAddress: boolean = true;
   customerForm!: FormGroup;
@@ -30,10 +32,21 @@ export class CustomerDetailsComponent implements OnInit {
     lastDateModified: new Date()
   };
   formMessage: string = '';
-  contact:Contact = {id: "", name:"",email:"",phone:"",primary:true};
-  address:Address = {id: "", street:"",number:"",otherDetails:"", city:"",county:"",country:"",postalCode:"",primaryBilling:true,primaryDelivery:true};
+  contact: Contact = {id: "", name: "", email: "", phone: "", primary: true};
+  address: Address = {
+    id: "",
+    street: "",
+    number: "",
+    otherDetails: "",
+    city: "",
+    county: "",
+    country: "",
+    postalCode: "",
+    primaryBilling: true,
+    primaryDelivery: true
+  };
 
-  constructor(public customerService: CustomerService, private route: ActivatedRoute,private router: Router) {
+  constructor(public customerService: CustomerService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -59,15 +72,15 @@ export class CustomerDetailsComponent implements OnInit {
       nameContact: new FormControl(),
       emailContact: new FormControl(),
       phoneContact: new FormControl(),
-      addressStreet:new FormControl(),
-      addressNumber:new FormControl(),
-      otherDetails:new FormControl(),
-      primaryBilling:new FormControl(),
-      primaryDelivery:new FormControl(),
-      city:new FormControl(),
-      county:new FormControl(),
-      country:new FormControl(),
-      postalCode:new FormControl()
+      addressStreet: new FormControl(),
+      addressNumber: new FormControl(),
+      otherDetails: new FormControl(),
+      primaryBilling: new FormControl(),
+      primaryDelivery: new FormControl(),
+      city: new FormControl(),
+      county: new FormControl(),
+      country: new FormControl(),
+      postalCode: new FormControl()
     });
 
   }
@@ -99,55 +112,80 @@ export class CustomerDetailsComponent implements OnInit {
           }
         });
       }
-    }else {
+    } else {
       this.formMessage = "Please complete all fields"
     }
   }
 
-  showFormContact(){
+  showFormContact() {
     this.addContact = !this.addContact;
   }
-  showFormAddress(){
+
+  showFormAddress() {
     this.addAddress = !this.addAddress;
   }
 
   saveContact() {
-    if(this.contact.name.length != 0){
-      if(this.contact.primary){
-        this.customer.contactList?.forEach(c => c.primary=false)
+    if (this.contact.name.length != 0) {
+      if (this.contact.primary) {
+        this.customer.contactList?.forEach(c => c.primary = false)
       }
       this.customer.contactList?.push(this.contact);
-      this.contact = {id: "", name:"",email:"",phone:"",primary:true};
+      this.contact = {id: "", name: "", email: "", phone: "", primary: true};
       this.formMessage = "Success";
-    }else {
+    } else {
       this.formMessage = "Please complete name field";
     }
   }
 
   saveAddress() {
-    if(this.address.city.length != 0){
-      if(this.address.primaryBilling){
-        this.customer.addressList?.forEach(a => a.primaryBilling=false);
+    if (this.address.city.length != 0) {
+      if (this.address.primaryBilling) {
+        this.customer.addressList?.forEach(a => a.primaryBilling = false);
       }
-      if(this.address.primaryDelivery){
-        this.customer.addressList?.forEach(a => a.primaryDelivery=false);
+      if (this.address.primaryDelivery) {
+        this.customer.addressList?.forEach(a => a.primaryDelivery = false);
       }
       this.customer.addressList?.push(this.address)
-      this.address = {id: "", street:"",number:"",otherDetails:"", city:"",county:"",country:"",postalCode:"",primaryBilling:true,primaryDelivery:true};
+      this.address = {
+        id: "",
+        street: "",
+        number: "",
+        otherDetails: "",
+        city: "",
+        county: "",
+        country: "",
+        postalCode: "",
+        primaryBilling: true,
+        primaryDelivery: true
+      };
       this.formMessage = "Success";
-    }else {
+    } else {
       this.formMessage = "Please complete name field";
     }
   }
 
   setPrimary(contact: Contact) {
-    this.customer.contactList?.forEach(c => contact===c ? c.primary=true :c.primary=false);
+    this.customer.contactList?.forEach(c => contact === c ? c.primary = true : c.primary = false);
   }
+
   setBillingAddress(address: Address) {
-    this.customer.addressList?.forEach(a => address===a ? a.primaryBilling=true :a.primaryBilling=false);
+    this.customer.addressList?.forEach(a => address === a ? a.primaryBilling = true : a.primaryBilling = false);
   }
 
   setDeliveryAddress(address: Address) {
-    this.customer.addressList?.forEach(a => address===a ? a.primaryDelivery=true :a.primaryDelivery=false);
+    this.customer.addressList?.forEach(a => address === a ? a.primaryDelivery = true : a.primaryDelivery = false);
+  }
+
+  showDeleteList() {
+    this.deleteList = !this.deleteList;
+  }
+
+  deleteContact(contact: Contact) {
+    this.customer.contactList?.splice(this.customer.contactList?.indexOf(contact))
+  }
+
+  showEditList() {
+  this.editList = !this.editList;
   }
 }

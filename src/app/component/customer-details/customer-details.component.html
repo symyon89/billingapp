@@ -32,12 +32,13 @@
                aria-describedby="company">
       </div>
       <div class="col">
-        <div ngbDropdown class="d-inline-block" >
-          <button type="button"  class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Set primary
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Set primary
             contact
           </button>
-          <div ngbDropdownMenu   aria-labelledby="dropdownBasic1">
-            <button *ngFor="let contact of customer.contactList" (click)="setPrimary(contact)" ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button *ngFor="let contact of customer.contactList" (click)="setPrimary(contact)"
+                    ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
           </div>
         </div>
       </div>
@@ -46,9 +47,9 @@
           <button type="button" class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>Set billing
             address
           </button>
-          <div ngbDropdownMenu  aria-labelledby="dropdownBasic2">
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
             <button (click)="setBillingAddress(address)" *ngFor="let address of customer.addressList"
-              ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
+                    ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
             + address.county + ", " + address.country + ", " + address.postalCode}}</button>
           </div>
         </div>
@@ -58,7 +59,7 @@
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic3">
             <button (click)="setDeliveryAddress(address)" *ngFor="let address of customer.addressList"
-              ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
+                    ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
             + address.county + ", " + address.country + ", " + address.postalCode}}</button>
           </div>
         </div>
@@ -98,49 +99,93 @@
                   class="form-control" rows="1"></textarea>
       </div>
     </div>
-    <hr />
+    <hr/>
     <button (click)="showFormContact()" class="btn btn-outline-primary m-2">Add contact</button>
-    <div class="row" [hidden] = addContact>
+
+    <div class="row" [hidden]=addContact>
       <hr/>
       <div class="col">
         <div class="form-check m-3">
-          <input class="form-check-input" type="checkbox" value="" id="primary" [(ngModel)]="contact.primary" formControlName="primary">
+          <input class="form-check-input" type="checkbox" value="" id="primary" [(ngModel)]="contact.primary"
+                 formControlName="primary">
           <label class="form-check-label" for="primary">
             Primary
           </label>
         </div>
-        </div>
+      </div>
       <div class="col">
         <label for="nameContact">Contact name :</label>
-        <input type="text"  formControlName="nameContact" [(ngModel)]="contact.name" id="nameContact" aria-describedby="nameContact"
+        <input type="text" formControlName="nameContact" [(ngModel)]="contact.name" id="nameContact"
+               aria-describedby="nameContact"
                placeholder="Enter contact name" class="form-control"/>
       </div>
       <div class="col">
         <label for="emailContact">Contact email :</label>
-        <input type="text" formControlName="emailContact" [(ngModel)]="contact.email" id="emailContact" aria-describedby="emailContact"
+        <input type="text" formControlName="emailContact" [(ngModel)]="contact.email" id="emailContact"
+               aria-describedby="emailContact"
                placeholder="Enter contact email" class="form-control"/>
       </div>
       <div class="col mb-3">
         <label for="phoneContact">Contact phone :</label>
-        <input  type="text" formControlName="phoneContact" [(ngModel)]="contact.phone" id="phoneContact" aria-describedby="phoneContact"
+        <input type="text" formControlName="phoneContact" [(ngModel)]="contact.phone" id="phoneContact"
+               aria-describedby="phoneContact"
                placeholder="Enter contact phone" class="form-control"/>
       </div>
       <button (click)="saveContact()" class="btn btn-outline-danger m-2">Save Contact</button>
       <hr/>
     </div>
 
+    <button (click)="showEditList()" class="btn btn-outline-secondary m-2">Edit contact</button>
+
+<!--    Trebuie sa continui aici cu edit-->
+    <div class="row m-0" [hidden]=editList>
+      <hr/>
+      <div class="col mb-3">
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-secondary" id="dropdownBasic4" ngbDropdownToggle>
+            Choose contact to edit
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic4">
+            <button *ngFor="let contact of customer.contactList"
+                    ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+    </div>
+
+    <button (click)="showDeleteList()" class="btn btn-outline-danger m-2">Delete contact</button>
+
+    <div class="row m-0" [hidden]=deleteList>
+      <hr/>
+      <div class="col mb-3">
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-danger" id="dropdownBasic" ngbDropdownToggle>
+            Choose contact to delete
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+            <button *ngFor="let contact of customer.contactList" (click)="deleteContact(contact)"
+                    ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+    </div>
+
     <button (click)="showFormAddress()" class="btn btn-outline-primary m-2">Add address</button>
-    <div class="row" [hidden] = addAddress>
+    <div class="row" [hidden]=addAddress>
       <hr/>
       <div class="col-2">
         <div class="form-check m-3">
-          <input class="form-check-input" type="checkbox" value="" id="primaryBilling" [(ngModel)]="address.primaryBilling" formControlName="primaryBilling">
+          <input class="form-check-input" type="checkbox" value="" id="primaryBilling"
+                 [(ngModel)]="address.primaryBilling" formControlName="primaryBilling">
           <label class="form-check-label" for="primaryBilling">
             Default billing
           </label>
         </div>
         <div class="form-check m-3">
-          <input class="form-check-input" type="checkbox" value="" id="primaryDelivery" [(ngModel)]="address.primaryDelivery" formControlName="primaryDelivery">
+          <input class="form-check-input" type="checkbox" value="" id="primaryDelivery"
+                 [(ngModel)]="address.primaryDelivery" formControlName="primaryDelivery">
           <label class="form-check-label" for="primaryDelivery">
             Default delivery
           </label>
@@ -148,17 +193,20 @@
       </div>
       <div class="col">
         <label for="addressStreet">Street :</label>
-        <input type="text" [(ngModel)]="address.street" formControlName="addressStreet" id="addressStreet" aria-describedby="addressStreet"
+        <input type="text" [(ngModel)]="address.street" formControlName="addressStreet" id="addressStreet"
+               aria-describedby="addressStreet"
                placeholder="Enter street name" class="form-control"/>
       </div>
       <div class="col">
         <label for="addressNumber">Number :</label>
-        <input type="text" [(ngModel)]="address.number" formControlName="addressNumber" id="addressNumber" aria-describedby="addressNumber"
+        <input type="text" [(ngModel)]="address.number" formControlName="addressNumber" id="addressNumber"
+               aria-describedby="addressNumber"
                placeholder="Enter street number" class="form-control"/>
       </div>
       <div class="col">
         <label for="otherDetails">Address details :</label>
-        <input type="text" [(ngModel)]="address.otherDetails" formControlName="otherDetails" id="otherDetails" aria-describedby="otherDetails"
+        <input type="text" [(ngModel)]="address.otherDetails" formControlName="otherDetails" id="otherDetails"
+               aria-describedby="otherDetails"
                placeholder="Enter details" class="form-control"/>
       </div>
       <div class="col">
@@ -173,12 +221,14 @@
       </div>
       <div class="col">
         <label for="country">Country :</label>
-        <input type="text" [(ngModel)]="address.country" formControlName="country" id="country" aria-describedby="country"
+        <input type="text" [(ngModel)]="address.country" formControlName="country" id="country"
+               aria-describedby="country"
                placeholder="Enter country" class="form-control"/>
       </div>
       <div class="col mb-3">
         <label for="postalCode">Postal code :</label>
-        <input type="text" [(ngModel)]="address.postalCode" formControlName="postalCode" id="postalCode" aria-describedby="postalCode"
+        <input type="text" [(ngModel)]="address.postalCode" formControlName="postalCode" id="postalCode"
+               aria-describedby="postalCode"
                placeholder="Enter postal code" class="form-control"/>
       </div>
       <button (click)="saveAddress()" class="btn btn-outline-danger m-2">Save Address</button>
