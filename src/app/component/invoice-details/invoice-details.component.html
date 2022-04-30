@@ -50,6 +50,7 @@
         <th scope="col">Product description</th>
         <th scope="col">Product price</th>
         <th scope="col">Product total</th>
+        <th scope="col">Product total with Vat</th>
         <th scope="col">Quantity</th>
         <th scope="col">Actions</th>
       </tr>
@@ -59,8 +60,9 @@
 
         <th scope="row">{{invoiceQuantities.product.name}}</th>
         <td>{{invoiceQuantities.product.description }}</td>
-        <td>{{invoiceQuantities.product.price }}</td>
-        <td>{{invoiceQuantities.product.price * invoiceQuantities.quantity }}</td>
+        <td>{{invoiceQuantities.product.price | number: '0.2' }}</td>
+        <td>{{invoiceQuantities.product.price * invoiceQuantities.quantity| number: '0.2' }}</td>
+        <td>{{calculateVat(invoiceQuantities.product,invoiceQuantities.quantity) | number: '0.2'}}</td>
         <td>{{invoiceQuantities.quantity}}</td>
         <td>
           <div class="d-grid gap-2 d-md-flex">
@@ -70,9 +72,14 @@
         </td>
       </tr>
       <tr>
-        <td colspan="4"></td>
+        <td colspan="5"></td>
         <td>Total:</td>
-        <td>{{calculateTotal()}}</td>
+        <td>{{calculateTotal() | number : '0.2'}}</td>
+      </tr>
+      <tr>
+        <td colspan="5"></td>
+        <td>Total with Vat:</td>
+        <td>{{calculateTotalwithVat() | number : '0.2'}}</td>
       </tr>
       </tbody>
     </table>

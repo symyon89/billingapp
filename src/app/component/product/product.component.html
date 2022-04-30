@@ -22,7 +22,7 @@
 
       <th scope="row">{{product.name}}</th>
       <td>{{product.sku }}</td>
-      <td>{{product.price }}</td>
+      <td>{{product.price.toFixed(2) }}</td>
       <td>{{product.quantity }}</td>
       <td>{{product.manufacturer? product.manufacturer.name : "Manufacturer not set" }}</td>
       <td>{{product.dateAdded | date:"dd/MM/yyyy"}}</td>

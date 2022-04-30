@@ -3,11 +3,11 @@ import {Customer} from "../../interface/customer";
 import {Invoice} from "../../interface/invoice";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import { InvoiceService } from 'src/app/service/invoice.service';
-import { CustomerService } from 'src/app/service/customer.service';
+import {InvoiceService} from 'src/app/service/invoice.service';
+import {CustomerService} from 'src/app/service/customer.service';
 import {InvoiceQuantity} from "../../interface/invoice-quantity";
-import { ProductService } from 'src/app/service/product.service';
-import { Product } from 'src/app/interface/product';
+import {ProductService} from 'src/app/service/product.service';
+import {Product} from 'src/app/interface/product';
 
 @Component({
   selector: 'app-invoice-details',
@@ -17,25 +17,25 @@ import { Product } from 'src/app/interface/product';
 export class InvoiceDetailsComponent implements OnInit {
   invoiceId: any;
   formMessage: string = '';
-  invoiceNumber:any = null;
+  invoiceNumber: any = null;
   customerList!: Customer[];
-  customer!:Customer;
-  invoiceQuantities:InvoiceQuantity[] = [];
-  invoice:Invoice = {
-    id:"",
-    customer:this.customer,
-    invoiceQuantities:this.invoiceQuantities,
-    invoiceNumber:this.invoiceNumber,
-    dateAdded:new Date(),
+  customer!: Customer;
+  invoiceQuantities: InvoiceQuantity[] = [];
+  invoice: Invoice = {
+    id: "",
+    customer: this.customer,
+    invoiceQuantities: this.invoiceQuantities,
+    invoiceNumber: this.invoiceNumber,
+    dateAdded: new Date(),
     lastDateModified: new Date()
   };
   productList!: Product[];
-  invoiceForm!:FormGroup;
-  selectedProduct!:any;
+  invoiceForm!: FormGroup;
+  selectedProduct!: any;
   quantity: number = 0;
-  showAddForm:boolean = true;
+  showAddForm: boolean = true;
 
-  constructor(private invoiceService:InvoiceService,private productService:ProductService,private customerService:CustomerService,private route: ActivatedRoute, private router: Router) {
+  constructor(private invoiceService: InvoiceService, private productService: ProductService, private customerService: CustomerService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -64,16 +64,17 @@ export class InvoiceDetailsComponent implements OnInit {
       customer: new FormControl(),
       products: new FormControl(),
       invoiceNumber: new FormControl(),
-      quantity:new FormControl("",Validators.min(0)),
+      quantity: new FormControl("", Validators.min(0)),
       dateAdded: new FormControl("", [Validators.required]),
       lastDateModified: new FormControl("", [Validators.required])
     })
   }
+
   submitProduct() {
     if (this.invoiceForm.valid) {
       if (this.invoice.id === "") {
-        this.invoice.lastDateModified=new Date();
-        this.invoice.dateAdded=new Date();
+        this.invoice.lastDateModified = new Date();
+        this.invoice.dateAdded = new Date();
         this.invoiceService.save(this.invoice).subscribe({
           next: data => {
             this.invoice = data;
@@ -86,7 +87,7 @@ export class InvoiceDetailsComponent implements OnInit {
           }
         });
       } else {
-        this.invoice.lastDateModified=new Date();
+        this.invoice.lastDateModified = new Date();
         this.invoiceService.update(this.invoice).subscribe({
           next: data => {
             this.invoice = data;
@@ -119,19 +120,35 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   addToInvoice() {
-    if(this.quantity != 0) {
-      this.invoice.invoiceQuantities.push({id:"",product:this.selectedProduct,quantity:this.quantity});
+    if (this.quantity != 0) {
+      this.invoice.invoiceQuantities.push({id: "", product: this.selectedProduct, quantity: this.quantity});
       this.selectedProduct = undefined;
-      this.quantity=0;
-      this.showAddForm=true;
+      this.quantity = 0;
+      this.showAddForm = true;
       this.formMessage = "Product added to invoice"
-    }else {
+    } else {
       console.log(this.quantity)
       this.formMessage = "Cannot be 0"
     }
   }
 
   calculateTotal(): number {
-    return this.invoice.invoiceQuantities.map(invoiceQuantity => invoiceQuantity.product.price * invoiceQuantity.quantity).reduce((accumulator, currentValue) => accumulator + currentValue);
+    if (this.invoice.invoiceQuantities.length != 0) {
+      return this.invoice.invoiceQuantities.map(invoiceQuantity => invoiceQuantity.product.price * invoiceQuantity.quantity).reduce((accumulator, currentValue) => accumulator + currentValue);
+    }else {
+      return 0;
+    }
+
+  }
+
+  calculateTotalwithVat() : number {
+    if (this.invoice.invoiceQuantities.length != 0) {
+      return this.invoice.invoiceQuantities.map(invoiceQuantity => this.calculateVat(invoiceQuantity.product,invoiceQuantity.quantity)).reduce((accumulator, currentValue) => accumulator + currentValue);
+    }else {
+      return 0;
+    }
+  }
+  calculateVat(product: Product,quantity: number):number {
+    return (product.price +((product.price * product.vat.percentage) /100)) * quantity;
   }
 }

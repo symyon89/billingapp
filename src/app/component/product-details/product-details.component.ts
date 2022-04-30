@@ -75,7 +75,6 @@ export class ProductDetailsComponent implements OnInit {
       dateAdded: new FormControl("", [Validators.required]),
       lastDateModified: new FormControl("", [Validators.required]),
     });
-
   }
 
   submitProduct() {
