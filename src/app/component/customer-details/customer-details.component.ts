@@ -13,6 +13,8 @@ import {Address} from "../../interface/address";
 })
 export class CustomerDetailsComponent implements OnInit {
 
+  editAddress: boolean = true;
+  addressDeleteList: boolean = true;
   editList: boolean = true;
   deleteList: boolean = true;
   addContact: boolean = true;
@@ -127,15 +129,21 @@ export class CustomerDetailsComponent implements OnInit {
 
   saveContact() {
     if (this.contact.name.length != 0) {
-      if (this.contact.primary) {
-        this.customer.contactList?.forEach(c => c.primary = false)
-      }
-      this.customer.contactList?.push(this.contact);
-      this.contact = {id: "", name: "", email: "", phone: "", primary: true};
-      this.formMessage = "Success";
+
+        if (this.contact.primary) {
+          this.customer.contactList?.forEach(c => c.primary = false)
+        }
+        if (this.customer.contactList?.indexOf(this.contact) == -1) {
+          this.customer.contactList?.push(this.contact);
+        }
+        this.contact = {id: "", name: "", email: "", phone: "", primary: true};
+        this.formMessage = "Success";
+        this.showFormContact();
+
     } else {
       this.formMessage = "Please complete name field";
     }
+
   }
 
   saveAddress() {
@@ -146,7 +154,9 @@ export class CustomerDetailsComponent implements OnInit {
       if (this.address.primaryDelivery) {
         this.customer.addressList?.forEach(a => a.primaryDelivery = false);
       }
-      this.customer.addressList?.push(this.address)
+      if (this.customer.addressList?.indexOf(this.address) == -1) {
+        this.customer.addressList?.push(this.address);
+      }
       this.address = {
         id: "",
         street: "",
@@ -160,6 +170,7 @@ export class CustomerDetailsComponent implements OnInit {
         primaryDelivery: true
       };
       this.formMessage = "Success";
+      this.showFormAddress();
     } else {
       this.formMessage = "Please complete name field";
     }
@@ -182,10 +193,35 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   deleteContact(contact: Contact) {
-    this.customer.contactList?.splice(this.customer.contactList?.indexOf(contact))
+    this.customer.contactList?.splice(this.customer.contactList?.indexOf(contact));
+    this.showDeleteList();
   }
 
   showEditList() {
-  this.editList = !this.editList;
+    this.editList = !this.editList;
   }
+
+  editSave(contact: Contact) {
+    this.contact = contact;
+    this.addContact = false;
+    this.showEditList();
+  }
+
+  showAddressDeleteList() {
+    this.addressDeleteList = !this.addressDeleteList;
+  }
+
+  deleteAddress(address: Address) {
+    this.customer.addressList?.splice(this.customer.addressList?.indexOf(address));
+    this.showAddressDeleteList();
+  }
+  showEditAddress() {
+    this.editAddress = !this.editAddress;
+  }
+  editAddressList(address: Address) {
+    this.address = address;
+    this.addAddress = false;
+    this.showEditAddress();
+  }
+
 }

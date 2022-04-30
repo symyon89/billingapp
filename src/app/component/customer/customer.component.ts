@@ -21,13 +21,13 @@ export class CustomerComponent implements OnInit {
     this.customerService.getAll().subscribe({
       next: customers => this.customerList = customers,
       error: err => console.error(err)
-    })
+    });
   }
 
   deleteCustomer(id: string) {
     this.customerService.deleteById(id).subscribe(() => {
       window.location.reload();
-      console.log("Product deleted");
+      console.log("Customer deleted");
     });
   }
 

@@ -101,6 +101,24 @@
     </div>
     <hr/>
     <button (click)="showFormContact()" class="btn btn-outline-primary m-2">Add contact</button>
+    <button (click)="showEditList()" class="btn btn-outline-secondary m-2">Edit contact</button>
+    <button (click)="showDeleteList()" class="btn btn-outline-danger m-2">Delete contact</button>
+
+    <div class="row m-0" [hidden]=editList>
+      <hr/>
+      <div class="col mb-3">
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-secondary" id="dropdownBasic4" ngbDropdownToggle>
+            Choose contact to edit
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic4">
+            <button *ngFor="let contact of customer.contactList" (click)=editSave(contact)
+                    ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
+          </div>
+        </div>
+      </div>
+      <hr/>
+    </div>
 
     <div class="row" [hidden]=addContact>
       <hr/>
@@ -135,27 +153,6 @@
       <hr/>
     </div>
 
-    <button (click)="showEditList()" class="btn btn-outline-secondary m-2">Edit contact</button>
-
-<!--    Trebuie sa continui aici cu edit-->
-    <div class="row m-0" [hidden]=editList>
-      <hr/>
-      <div class="col mb-3">
-        <div ngbDropdown class="d-inline-block">
-          <button type="button" class="btn btn-outline-secondary" id="dropdownBasic4" ngbDropdownToggle>
-            Choose contact to edit
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic4">
-            <button *ngFor="let contact of customer.contactList"
-                    ngbDropdownItem>{{contact.name + ", " + contact.phone + ", " + contact.email}}</button>
-          </div>
-        </div>
-      </div>
-      <hr/>
-    </div>
-
-    <button (click)="showDeleteList()" class="btn btn-outline-danger m-2">Delete contact</button>
-
     <div class="row m-0" [hidden]=deleteList>
       <hr/>
       <div class="col mb-3">
@@ -173,6 +170,24 @@
     </div>
 
     <button (click)="showFormAddress()" class="btn btn-outline-primary m-2">Add address</button>
+    <button (click)="showEditAddress()" class="btn btn-outline-secondary m-2">Edit address</button>
+    <button (click)="showAddressDeleteList()" class="btn btn-outline-danger m-2">Delete address</button>
+    <div class="row" [hidden]="editAddress" >
+      <div class="col">
+        <hr/>
+        <div ngbDropdown>
+          <button type="button" class="btn btn-outline-danger" id="dropdownBasic6" ngbDropdownToggle>
+            Choose address to edit
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic6">
+            <button (click)="editAddressList(address)" *ngFor="let address of customer.addressList"
+                    ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
+            + address.county + ", " + address.country + ", " + address.postalCode}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row" [hidden]=addAddress>
       <hr/>
       <div class="col-2">
@@ -233,6 +248,22 @@
       </div>
       <button (click)="saveAddress()" class="btn btn-outline-danger m-2">Save Address</button>
       <hr/>
+    </div>
+
+    <div class="row" [hidden]="addressDeleteList" >
+      <div class="col">
+        <hr/>
+        <div ngbDropdown>
+          <button type="button" class="btn btn-outline-danger" id="dropdownBasic7" ngbDropdownToggle>
+            Choose address to delete
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic7">
+            <button (click)="deleteAddress(address)" *ngFor="let address of customer.addressList"
+                    ngbDropdownItem>{{address.street + ", " + address.number + ", " + address.otherDetails + ", "
+            + address.county + ", " + address.country + ", " + address.postalCode}}</button>
+          </div>
+        </div>
+      </div>
     </div>
     <hr/>
     <button class="btn btn-primary" type="submit" (click)="submitCustomer()">Save</button>
