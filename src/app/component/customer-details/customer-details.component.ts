@@ -90,11 +90,13 @@ export class CustomerDetailsComponent implements OnInit {
   submitCustomer() {
     if (this.customerForm.valid) {
       if (this.customer.id === "") {
+        this.customer.lastDateModified=new Date();
+        this.customer.dateAdded=new Date();
         this.customerService.save(this.customer).subscribe({
           next: data => {
             this.customer = data;
+            this.formMessage = "Success";
             this.router.navigate(["/customer/" + data.id]);
-            this.formMessage = "Success"
           },
           error: error => {
             this.formMessage = "Save error";
@@ -102,6 +104,7 @@ export class CustomerDetailsComponent implements OnInit {
           }
         });
       } else {
+        this.customer.lastDateModified=new Date();
         this.customerService.update(this.customer).subscribe({
           next: data => {
             this.customer = data;

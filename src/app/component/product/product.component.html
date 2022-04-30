@@ -24,7 +24,7 @@
       <td>{{product.sku }}</td>
       <td>{{product.price }}</td>
       <td>{{product.quantity }}</td>
-      <td>{{product.manufacturer.name }}</td>
+      <td>{{product.manufacturer? product.manufacturer.name : "Manufacturer not set" }}</td>
       <td>{{product.dateAdded | date:"dd/MM/yyyy"}}</td>
       <td>{{product.lastDateModified | date:"dd/MM/yyyy"}}</td>
       <td>

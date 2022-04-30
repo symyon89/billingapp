@@ -1,1 +1,44 @@
-<p>manufacturer-details works!</p>
+<hr/>
+<h2 class="text-center">Manufacturer</h2>
+<hr/>
+<div class="container">
+  <form [formGroup]="manufacturerForm">
+    <div *ngIf="formMessage !=''">
+      <p class="alert alert-info" role="alert">{{formMessage}}</p>
+    </div>
+    <div class="row">
+      <div class="col-2 ms-auto">
+        <label for="dateAdded">Date added</label>
+        <input type="text" formControlName="dateAdded" [ngModel]="manufacturer.dateAdded | date:'yyyy-MM-dd HH:mm:ss'"
+               id="dateAdded" aria-describedby="dateAdded" placeholder="Enter dateAdded" class="form-control"
+               readonly/>
+      </div>
+      <div class="col-2 ms-1">
+        <label for="lastDateModified">Date modified</label>
+        <input type="text" formControlName="lastDateModified"
+               [ngModel]="manufacturer.lastDateModified | date:'yyyy-MM-dd HH:mm:ss'" id="lastDateModified"
+               aria-describedby="lastDateModified" placeholder="Enter lastDateModified"
+               class="form-control" readonly/>
+      </div>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-3">
+        <label for="name">Name :</label>
+        <input type="text" formControlName="name" [(ngModel)]="manufacturer.name" id="name" aria-describedby="name"
+               placeholder="Enter name" class="form-control" required/>
+      </div>
+
+      <div class="col">
+        <label for="description">Description :</label>
+        <textarea type="text" formControlName="description" [(ngModel)]="manufacturer.description" id="description"
+                  aria-describedby="description" placeholder="Enter description"
+                  class="form-control" rows="1"></textarea>
+      </div>
+    </div>
+    <hr/>
+    <button class="btn btn-primary" type="submit" (click)="submitManufacturer()">Save</button>
+  </form>
+  <hr/>
+  <a [routerLink]="['/manufacturer']" class="btn btn-secondary ">Go to manufacturer list</a>
+</div>
