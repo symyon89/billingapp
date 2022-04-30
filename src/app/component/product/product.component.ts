@@ -10,7 +10,7 @@ import {Product} from "../../interface/product";
 export class ProductComponent implements OnInit {
   productList: Product[] = [];
   formMessage:string = "Empty list";
-  constructor(public productService:ProductService) { }
+  constructor(private productService:ProductService) { }
 
   ngOnInit(): void {
     this.productService.getAll().subscribe({

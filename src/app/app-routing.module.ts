@@ -8,6 +8,8 @@ import {ProductComponent} from "./component/product/product.component";
 import { ManufacturerDetailsComponent } from './component/manufacturer-details/manufacturer-details.component';
 import { ProductDetailsComponent } from './component/product-details/product-details.component';
 import {InvoiceDetailsComponent} from "./component/invoice-details/invoice-details.component";
+import {VatComponent} from "./component/vat/vat.component";
+import {VatDetailsComponent} from "./component/vat-details/vat-details.component";
 
 
 const routes: Routes = [
@@ -62,7 +64,19 @@ const routes: Routes = [
   {
     path: 'product-new',
     component: ProductDetailsComponent
-  }
+  },
+  {
+    path: 'vat',
+    component: VatComponent
+  },
+  {
+    path: 'vat-new',
+    component: VatDetailsComponent
+  },
+  {
+    path: 'vat/:vatId',
+    component: VatDetailsComponent
+  },
 ];
 
 @NgModule({

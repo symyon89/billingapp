@@ -16,6 +16,8 @@ import { ProductComponent } from './component/product/product.component';
 import { ManufacturerDetailsComponent } from './component/manufacturer-details/manufacturer-details.component';
 import { ProductDetailsComponent } from './component/product-details/product-details.component';
 import { InvoiceDetailsComponent } from './component/invoice-details/invoice-details.component';
+import { VatComponent } from './component/vat/vat.component';
+import { VatDetailsComponent } from './component/vat-details/vat-details.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { InvoiceDetailsComponent } from './component/invoice-details/invoice-det
     ProductComponent,
     ManufacturerDetailsComponent,
     ProductDetailsComponent,
-    InvoiceDetailsComponent
+    InvoiceDetailsComponent,
+    VatComponent,
+    VatDetailsComponent
   ],
     imports: [
         BrowserModule,

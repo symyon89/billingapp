@@ -35,17 +35,23 @@ export class ProductDetailsComponent implements OnInit {
     lastDateModified: new Date()
   };
   productForm!: FormGroup;
-  constructor(public productService:ProductService,public manufacturerService:ManufacturerService,public vatService:VatService,private route: ActivatedRoute, private router: Router) { }
+  constructor(private productService:ProductService,private manufacturerService:ManufacturerService,private vatService:VatService,private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.productId = this.route.snapshot.params['productId'];
     if (this.productId != undefined) {
       this.productService.getByID(this.productId).subscribe({
-          next: product => this.product = product,
+          next: product => {
+            this.product = product;
+            this.manufacturer = product.manufacturer;
+            this.vat = product.vat;
+          },
           error: error => console.log(error)
         }
       );
+
     }
+
     this.manufacturerService.getAll().subscribe({
       next: manufacturers => this.manufacturerList = manufacturers,
       error: error => console.log(error)

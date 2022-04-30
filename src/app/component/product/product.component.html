@@ -28,7 +28,7 @@
       <td>{{product.dateAdded | date:"dd/MM/yyyy"}}</td>
       <td>{{product.lastDateModified | date:"dd/MM/yyyy"}}</td>
       <td>
-        <div class="d-grid gap-2 d-md-flex justify-content-center">
+        <div class="d-grid gap-2 d-md-flex">
           <a [routerLink] = "['/product/',product.id]" class="btn btn-outline-primary">Edit</a>
           <a (click)="deleteProduct(product.id)" class="btn btn-outline-danger">Delete</a>
         </div>

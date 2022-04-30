@@ -48,7 +48,7 @@ export class CustomerDetailsComponent implements OnInit {
     primaryDelivery: true
   };
 
-  constructor(public customerService: CustomerService, private route: ActivatedRoute, private router: Router) {
+  constructor(private customerService: CustomerService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {

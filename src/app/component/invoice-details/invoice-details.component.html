@@ -1,1 +1,106 @@
-<p>invoice-details works!</p>
+<hr/>
+<h2 class="text-center">Invoice</h2>
+<hr/>
+<div class="container">
+  <form [formGroup]="invoiceForm">
+    <div *ngIf="formMessage !=''">
+      <p class="alert alert-info" role="alert">{{formMessage}}</p>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <span class="me-2 fw-bold">Customer: {{customer ? customer.name : "Not set"}}</span>
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+            Set customer
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button *ngFor="let customeritem of customerList" (click)="setCustomer(customeritem)"
+                    ngbDropdownItem>{{customeritem.name}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-2 ms-auto">
+        <label for="dateAdded">Date added</label>
+        <input type="text" formControlName="dateAdded" [ngModel]="invoice.dateAdded | date:'yyyy-MM-dd HH:mm:ss'"
+               id="dateAdded" aria-describedby="dateAdded" placeholder="Enter dateAdded" class="form-control"
+               readonly/>
+      </div>
+      <div class="col-2 ms-0">
+        <label for="lastDateModified">Date modified</label>
+        <input type="text" formControlName="lastDateModified"
+               [ngModel]="invoice.lastDateModified | date:'yyyy-MM-dd HH:mm:ss'" id="lastDateModified"
+               aria-describedby="lastDateModified" placeholder="Enter lastDateModified"
+               class="form-control" readonly/>
+      </div>
+      <div class="col-2 ms-0">
+        <label for="lastDateModified">Invoice number</label>
+        <input type="text" formControlName="invoiceNumber"
+               [ngModel]="invoice.invoiceNumber" id="invoiceNumber"
+               aria-describedby="invoiceNumber" placeholder="Invoice number"
+               class="form-control" readonly/>
+      </div>
+    </div>
+    <hr/>
+    <table class="table table-striped table-hover">
+      <caption class="text-center">End of invoice</caption>
+      <thead>
+      <tr>
+
+        <th scope="col">Product Name</th>
+        <th scope="col">Product description</th>
+        <th scope="col">Product price</th>
+        <th scope="col">Product total</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let invoiceQuantities of invoice.invoiceQuantities">
+
+        <th scope="row">{{invoiceQuantities.product.name}}</th>
+        <td>{{invoiceQuantities.product.description }}</td>
+        <td>{{invoiceQuantities.product.price }}</td>
+        <td>{{invoiceQuantities.product.price * invoiceQuantities.quantity }}</td>
+        <td>{{invoiceQuantities.quantity}}</td>
+        <td>
+          <div class="d-grid gap-2 d-md-flex">
+            <a class="btn btn-outline-primary">Edit quantity</a>
+            <a (click)="deleteInvoiceQuantities(invoiceQuantities)" class="btn btn-outline-danger">Delete</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4"></td>
+        <td>Total:</td>
+        <td>{{calculateTotal()}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <hr/>
+    <div class="row">
+      <div class="col-3 m-4">
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn btn-outline-primary" id="dropdownBasic4" ngbDropdownToggle>
+            Add product to invoice
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic4">
+            <button *ngFor="let product of productList" (click)="productSelected(product)"
+                    ngbDropdownItem>{{product.name}}</button>
+          </div>
+        </div>
+      </div>
+        <div class="col-2" [hidden]="showAddForm">
+          <label class="fw-bold" for="quantity">{{selectedProduct? selectedProduct.name : "Nothing"}} is selected</label>
+          <input type="text" formControlName="quantity" [(ngModel)]="quantity"
+                 id="quantity" aria-describedby="quantity" placeholder="Enter quantity" class="form-control"/>
+          </div>
+          <div class="col-2 m-4" [hidden]="showAddForm">
+          <button class="btn btn-primary" type="submit" (click)="addToInvoice()">Add to invoice</button>
+        </div>
+    </div>
+    <hr/>
+    <button class="btn btn-primary" type="submit" (click)="submitProduct()">Save</button>
+  </form>
+  <hr/>
+  <a [routerLink]="['/invoice']" class="btn btn-secondary ">Go to invoice list</a>
+</div>

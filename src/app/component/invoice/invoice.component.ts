@@ -10,11 +10,11 @@ import {InvoiceService} from "../../service/invoice.service";
 export class InvoiceComponent implements OnInit {
   invoiceList: Invoice[] = [];
   formMessage:string = "Empty list";
-  constructor(public invoiceService: InvoiceService) { }
+  constructor(private invoiceService: InvoiceService) { }
 
   ngOnInit(): void {
     this.invoiceService.getAll().subscribe({
-      next: invoices => this.invoiceList = invoices,
+      next: invoices => {this.invoiceList = invoices; console.log(invoices) },
       error: err => console.error(err)
     });
   }

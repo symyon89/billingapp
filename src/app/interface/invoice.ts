@@ -1,11 +1,11 @@
 import { Customer } from "./customer";
-import {Product} from "./product";
+import {InvoiceQuantity} from "./invoice-quantity";
 
 export interface Invoice {
   id: string;
   customer: Customer;
-  products:Product[];
-  invoiceNumber:string;
+  invoiceQuantities:InvoiceQuantity[];
+  invoiceNumber:number;
   dateAdded:Date;
   lastDateModified:Date;
 }

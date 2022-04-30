@@ -9,7 +9,7 @@ import {Invoice} from "../interface/invoice";
 })
 export class InvoiceService {
 
-  private url = environment.apiURL + "/customer";
+  private url = environment.apiURL + "/invoice";
 
   httpOptions = {
     headers: new HttpHeaders({

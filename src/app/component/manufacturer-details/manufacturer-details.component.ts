@@ -21,7 +21,7 @@ export class ManufacturerDetailsComponent implements OnInit {
     lastDateModified: new Date()
   };
   manufacturerForm!: FormGroup;
-  constructor(public manufacturerService:ManufacturerService,private route: ActivatedRoute, private router: Router) {
+  constructor(private manufacturerService:ManufacturerService,private route: ActivatedRoute, private router: Router) {
 
   }
 

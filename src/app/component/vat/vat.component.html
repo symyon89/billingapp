@@ -1,0 +1,31 @@
+<div *ngIf="vatList.length == 0; else showVatList">
+  <p class="alert alert-danger text-center" role="alert">{{formMessage}}</p>
+</div>
+<ng-template #showVatList>
+  <table class="table table-striped table-hover">
+    <caption class="text-center">End of List</caption>
+    <thead>
+    <tr>
+
+      <th scope="col">Name</th>
+      <th scope="col">Code</th>
+      <th scope="col">Percentage</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let vat of vatList">
+
+      <th scope="row">{{vat.name}}</th>
+      <td>{{vat.code}}</td>
+      <td>{{vat.percentage + " %"}}</td>
+      <td>
+        <div class="d-grid gap-2 d-md-flex ">
+          <a [routerLink] = "['/vat/',vat.id]" class="btn btn-outline-primary">Edit</a>
+          <a (click)="deleteVat(vat.id)" class="btn btn-outline-danger">Delete</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</ng-template>

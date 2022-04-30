@@ -14,7 +14,7 @@ export class CustomerComponent implements OnInit {
   customerList: Customer[] = [];
   formMessage:string = "Empty list";
 
-  constructor(public customerService: CustomerService) {
+  constructor(private customerService: CustomerService) {
   }
 
   ngOnInit(): void {

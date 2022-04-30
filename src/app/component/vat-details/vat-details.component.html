@@ -1,0 +1,34 @@
+<hr/>
+<h2 class="text-center">Vat</h2>
+<hr/>
+<div class="container">
+  <form [formGroup]="vatForm">
+    <div *ngIf="formMessage !=''">
+      <p class="alert alert-info" role="alert">{{formMessage}}</p>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-3">
+        <label for="name">Name :</label>
+        <input type="text" formControlName="name" [(ngModel)]="vat.name" id="name" aria-describedby="name"
+               placeholder="Enter name" class="form-control" required/>
+      </div>
+      <div class="col-3">
+        <label for="code">Code :</label>
+        <input type="text" formControlName="code" [(ngModel)]="vat.code" id="code" aria-describedby="code"
+               placeholder="Enter code" class="form-control" required/>
+      </div>
+      <div class="col-3">
+        <label for="percentage">Percentage :</label>
+        <input type="number" formControlName="percentage" [(ngModel)]="vat.percentage" id="percentage" aria-describedby="percentage"
+               placeholder="Enter percentage" class="form-control" required/>
+      </div>
+
+
+    </div>
+    <hr/>
+    <button class="btn btn-primary" type="submit" (click)="submitVat()">Save</button>
+  </form>
+  <hr/>
+  <a [routerLink]="['/vat']" class="btn btn-secondary ">Go to vat list</a>
+</div>

@@ -11,7 +11,7 @@ export class ManufacturerComponent implements OnInit {
 
   manufacturerList:Manufacturer[] = [];
   formMessage:string = "Empty list";
-  constructor(public manufacturerService:ManufacturerService) { }
+  constructor(private manufacturerService:ManufacturerService) { }
 
   ngOnInit(): void {
     this.manufacturerService.getAll().subscribe({
