@@ -111,7 +111,7 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   deleteInvoiceQuantities(invoiceQuantities: InvoiceQuantity) {
-    this.invoice.invoiceQuantities.splice(this.invoice.invoiceQuantities.indexOf(invoiceQuantities));
+    this.invoice.invoiceQuantities.splice(this.invoice.invoiceQuantities.indexOf(invoiceQuantities),1);
   }
 
   productSelected(product: Product) {

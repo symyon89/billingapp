@@ -196,7 +196,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   deleteContact(contact: Contact) {
-    this.customer.contactList?.splice(this.customer.contactList?.indexOf(contact));
+    this.customer.contactList?.splice(this.customer.contactList?.indexOf(contact),1);
     this.showDeleteList();
   }
 
@@ -215,7 +215,7 @@ export class CustomerDetailsComponent implements OnInit {
   }
 
   deleteAddress(address: Address) {
-    this.customer.addressList?.splice(this.customer.addressList?.indexOf(address));
+    this.customer.addressList?.splice(this.customer.addressList?.indexOf(address),1);
     this.showAddressDeleteList();
   }
   showEditAddress() {

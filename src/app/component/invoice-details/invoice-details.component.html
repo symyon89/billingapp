@@ -56,18 +56,17 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let invoiceQuantities of invoice.invoiceQuantities">
+      <tr *ngFor="let invoiceQuantityItem of invoice.invoiceQuantities">
 
-        <th scope="row">{{invoiceQuantities.product.name}}</th>
-        <td>{{invoiceQuantities.product.description }}</td>
-        <td>{{invoiceQuantities.product.price | number: '0.2' }}</td>
-        <td>{{invoiceQuantities.product.price * invoiceQuantities.quantity| number: '0.2' }}</td>
-        <td>{{calculateVat(invoiceQuantities.product,invoiceQuantities.quantity) | number: '0.2'}}</td>
-        <td>{{invoiceQuantities.quantity}}</td>
+        <th scope="row">{{invoiceQuantityItem.product.name}}</th>
+        <td>{{invoiceQuantityItem.product.description }}</td>
+        <td>{{invoiceQuantityItem.product.price | number: '0.2' }}</td>
+        <td>{{invoiceQuantityItem.product.price * invoiceQuantityItem.quantity| number: '0.2' }}</td>
+        <td>{{calculateVat(invoiceQuantityItem.product,invoiceQuantityItem.quantity) | number: '0.2'}}</td>
+        <td>{{invoiceQuantityItem.quantity}}</td>
         <td>
           <div class="d-grid gap-2 d-md-flex">
-            <a class="btn btn-outline-primary">Edit quantity</a>
-            <a (click)="deleteInvoiceQuantities(invoiceQuantities)" class="btn btn-outline-danger">Delete</a>
+            <a (click)="deleteInvoiceQuantities(invoiceQuantityItem)" class="btn btn-outline-danger">Delete</a>
           </div>
         </td>
       </tr>
